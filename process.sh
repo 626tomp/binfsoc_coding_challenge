@@ -2,8 +2,6 @@
 
 #salmon index -t GRCh38.all.fa.gz -i genome_index
 
-FILES="SRR13783589.fastq.gz
-SRR13783590.fastq.gz"
 for f in *.fastq.gz
 do
     echo "Processing $f"
