@@ -16,10 +16,13 @@ library(tximportData)
 samples <- read.table(file.path("samples.txt"), header = TRUE)
 samples
 
-files <- file.path(dir, "salmon", samples$run, "results/quant.sf")
+files <- file.path("quant.sf")
 
 names(files) <- paste0("sample", 1)
 
-txi.salmon <- tximport(files, type = "salmon", tx2gene = tx2gene)
+library(tximport)
+txi <- tximport(files, type = "salmon", txOut = TRUE)
+names(txi)
+names(txi$infReps)
 
 head(txi.salmon$counts)
