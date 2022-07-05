@@ -13,6 +13,8 @@ library(tximportData)
 
 # haven't been tested/run, from link above
 
+
+# gets names of samples from samples.txt
 samples <- read.table(file.path("samples.txt"), header = TRUE)
 samples
 
