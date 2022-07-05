@@ -4,6 +4,10 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install(version = "3.15")
 BiocManager::install("edgeR")
 BiocManager::install("tximport")
+BiocManager::install("ensembldb")
+BiocManager::install("AnnotationDbi")
+BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
+
 
 # https://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html
 
@@ -18,13 +22,19 @@ library(tximportData)
 samples <- read.table(file.path("samples.txt"), header = TRUE)
 samples
 
-files <- file.path("quant.sf")
+files <- file.path(samples, "quant.sf")
 
-names(files) <- paste0("sample", 1)
+names(files) <- paste0("sample", 1:6)
+
+
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+
+k <- keys(txdb, keytype = "TXNAME")
+tx2gene <- select(txdb, k, "GENEID", "TXNAME")
+
 
 library(tximport)
-txi <- tximport(files, type = "salmon", txOut = TRUE)
+txi <- tximport(files, type = "salmon", tx2gene = tx2gene)
 names(txi)
-names(txi$infReps)
-
-head(txi.salmon$counts)
+head(txi$counts)
